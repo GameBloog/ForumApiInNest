@@ -10,7 +10,6 @@ Content-Type: application/json
   "email":"gimenez@gmail.com",
   "password": "123456"
 }
-
 ###
 
 # @name authenticate
@@ -21,17 +20,21 @@ Content-Type: application/json
   "email":"gimenez@gmail.com",
   "password": "123456"
 }
-
 ###
 
-# @name createQuestion
+# @name create_question
 POST {{baseUrl}}/questions
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "Nova Pergunta",
-  "Content": "Conteúdo da pergunta"
+  "title": "Nova Pergunta2",
+  "content": "Conteúdo da pergunta"
 }
+###
 
+# @name fetch_recent_questions
+GET {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 ###
