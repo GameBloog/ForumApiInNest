@@ -26,6 +26,12 @@
   "prettier.tabWidth": 2,
   "prettier.semi": false,
 
+  //symbols
+  "material-icon-theme.files.associations": {
+    "*.e2e-spec.ts": "test-ts",
+    "vitest.config.e2e.ts": "vitest"
+  },
+
   //prisma
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma",
