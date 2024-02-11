@@ -1,23 +1,31 @@
 {
   // editor
+  "editor.fontFamily": "JetBrains Mono",
   "editor.wordWrap": "on",
   "editor.fontSize": 18,
-  "editor.lineHeight": 30,
+  "editor.lineHeight": 1.8,
   "editor.tabSize": 2,
+  "editor.fontLigatures": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true,
   "editor.minimap.enabled": false,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
+  "editor.semanticHighlighting.enabled": false,
+  "editor.renderLineHighlight": "gutter",
   "files.autoSave": "afterDelay",
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.vertical": "hidden",
 
   // explorer
   "explorer.compactFolders": false,
 
   // workbench
   "workbench.editor.enablePreview": false,
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "Vesper",
+  "workbench.iconTheme": "symbols",
+  "workbench.colorTheme": "Min Dark",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.editor.labelFormat": "short",
 
   // prettier
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -27,11 +35,14 @@
   "prettier.semi": false,
 
   //symbols
-  "material-icon-theme.files.associations": {
-    "*.e2e-spec.ts": "test-ts",
-    "vitest.config.e2e.ts": "vitest"
+  "symbols.files.associations": {
+    "*.module.ts": "nest",
+    "*.guard.ts": "typescript",
+    "*.spec.ts": "ts-test",
+    "*.e2e-spec.ts": "ts-test",
+    "vitest.config.e2e.ts": "vite",
+    ".env.example": "gear"
   },
-
   //prisma
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma",
