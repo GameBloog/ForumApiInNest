@@ -3,6 +3,7 @@ import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard"
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe"
 import { z } from "zod"
 import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions"
+import { QuestionPresenter } from "../presenters/question-presenter"
 
 const pageQueryParamSchema = z
   .string()
@@ -24,10 +25,16 @@ export class FetchRecentQuestionsController {
   async handle(@Query("page", queryValidationPipe) page: PageQueryParamSchema) {
     const perPage = 20
 
-    const questions = await this.fetchRecentQuestions.execute({
+    const result = await this.fetchRecentQuestions.execute({
       page,
     })
 
-    return { questions }
+    if (result.isLeft()) {
+      throw new Error()
+    }
+
+    const questions = result.value.questions
+
+    return { questions: questions.map(QuestionPresenter.toHTTP) }
   }
 }
