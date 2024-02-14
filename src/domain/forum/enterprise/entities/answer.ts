@@ -10,7 +10,7 @@ export interface AnswerProps {
   content: string
   attachment: AnswerAttachmentList
   createdAt: Date
-  updatdeAt?: Date
+  updatdeAt?: Date | null
 }
 export class Answer extends AggregateRoot<AnswerProps> {
   get authorId() {
