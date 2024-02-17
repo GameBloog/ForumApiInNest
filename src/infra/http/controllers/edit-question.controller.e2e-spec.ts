@@ -8,8 +8,9 @@ import request from "supertest"
 import { QuestionFactory } from "test/factories/make-question"
 import { StudentFactory } from "test/factories/make-student"
 
-describe("Fethc recent questions (E2E)", () => {
+describe("Edit question (E2E)", () => {
   let app: INestApplication
+  let prisma: PrismaService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
   let jwt: JwtService
@@ -23,38 +24,40 @@ describe("Fethc recent questions (E2E)", () => {
     app = moduleRef.createNestApplication()
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
   })
 
-  test("[GET] /questions", async () => {
+  test("[PUT] /questions/:id", async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    await Promise.all([
-      questionFactory.makePrismaQuestion({
-        authorId: user.id,
-        title: "Question 01",
-      }),
-      questionFactory.makePrismaQuestion({
-        authorId: user.id,
-        title: "Question 02",
-      }),
-    ])
+    const question = await questionFactory.makePrismaQuestion({
+      authorId: user.id,
+    })
+
+    const questionId = question.id.toString()
 
     const response = await request(app.getHttpServer())
-      .get("/questions")
+      .put(`/questions/${questionId}`)
       .set("Authorization", `Bearer ${accessToken}`)
-      .send()
+      .send({
+        title: "New title",
+        content: "New content",
+      })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body).toEqual({
-      questions: expect.arrayContaining([
-        expect.objectContaining({ title: "Question 01" }),
-        expect.objectContaining({ title: "Question 02" }),
-      ]),
+    expect(response.statusCode).toBe(204)
+
+    const questionOnDataBase = await prisma.question.findFirst({
+      where: {
+        title: "New title",
+        content: "New content",
+      },
     })
+
+    expect(questionOnDataBase).toBeTruthy()
   })
 })
