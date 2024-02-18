@@ -42,7 +42,7 @@ describe("Delete answer (E2E)", () => {
       authorId: user.id,
     })
 
-    const answer = await answerFactory.makePrismaQuestion({
+    const answer = await answerFactory.makePrismaAnswer({
       authorId: user.id,
       questionId: question.id,
     })
