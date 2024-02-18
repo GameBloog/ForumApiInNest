@@ -11,7 +11,7 @@ interface FetchQuestionCommentsUseCaseRequest {
 type FetchQuestionCommentsUseCaseResponse = Either<
   null,
   {
-    questionsComments: QuestionComment[]
+    questionComment: QuestionComment[]
   }
 >
 
@@ -23,15 +23,13 @@ export class FetchQuestionCommentsUseCase {
     questionId,
     page,
   }: FetchQuestionCommentsUseCaseRequest): Promise<FetchQuestionCommentsUseCaseResponse> {
-    const questionsComments =
+    const questionComment =
       await this.questionCommentRepository.findManyByQuestionId(questionId, {
         page,
       })
 
-      console.log(questionsComments)
-
     return rigth({
-      questionsComments,
+      questionComment,
     })
   }
 }

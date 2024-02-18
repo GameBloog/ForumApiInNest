@@ -35,15 +35,11 @@ export class FetchQuestionCommentsController {
       questionId,
     })
 
-    console.log(result)
-
     if (result.isLeft()) {
       throw new BadRequestException()
     }
 
-    const questionComments = result.value.questionComments
-
-    console.log(questionComments)
+    const questionComments = result.value.questionComment
 
     return { comments: questionComments.map(CommentPresenter.toHTTP) }
   }
