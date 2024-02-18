@@ -38,7 +38,6 @@ export class FetchAnswerCommentsController {
     if (result.isLeft()) {
       throw new BadRequestException()
     }
-    console.log(result)
 
     const answerComments = result.value.answersComments
 
