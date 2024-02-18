@@ -1,4 +1,5 @@
-import { Answer } from "@prisma/client"
+import { Answer } from "@/domain/forum/enterprise/entities/answer";
+
 
 export class AnswerPresenter {
   static toHTTP(answer: Answer) {
@@ -6,7 +7,7 @@ export class AnswerPresenter {
       id: answer.id.toString(),
       content: answer.content,
       createdAt: answer.createdAt,
-      updatdeAt: answer.updatedAt,
+      updatdeAt: answer.updatdeAt,
     }
   }
 }
