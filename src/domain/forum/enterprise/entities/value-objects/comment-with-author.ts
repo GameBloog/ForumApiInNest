@@ -1,9 +1,10 @@
+import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { ValueObject } from "@/core/entities/value-object"
 
 export interface CommentWithAuthorProps {
-  commentId: string
+  commentId: UniqueEntityID
   content: string
-  authorId: string
+  authorId: UniqueEntityID
   author: string
   createdAt: Date
   updatedAt?: Date | null
@@ -11,19 +12,19 @@ export interface CommentWithAuthorProps {
 
 export class CommentWithAuthor extends ValueObject<CommentWithAuthorProps> {
   get commentId() {
-    return this.commentId
+    return this.props.commentId
   }
 
   get content() {
-    return this.content
+    return this.props.content
   }
 
   get authorId() {
-    return this.authorId
+    return this.props.authorId
   }
 
   get author() {
-    return this.author
+    return this.props.author
   }
 
   get createdAt() {
