@@ -28,11 +28,11 @@ export class CommentWithAuthor extends ValueObject<CommentWithAuthorProps> {
   }
 
   get createdAt() {
-    return this.createdAt
+    return this.props.createdAt
   }
 
   get updatedAt() {
-    return this.updatedAt
+    return this.props.updatedAt
   }
 
   static create(props: CommentWithAuthorProps) {
