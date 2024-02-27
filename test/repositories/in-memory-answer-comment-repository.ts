@@ -1,9 +1,15 @@
 import { PaginationParams } from "@/core/repositorys/pagination-params"
 import { AnswerCommentRepository } from "@/domain/forum/application/repositories/answer-comments-repository"
 import { AnswerComment } from "@/domain/forum/enterprise/entities/answer-comment"
+import { InMemoryStudentsRepository } from "./in-memory-students-repostirory"
+import { CommentWithAuthor } from "@/domain/forum/enterprise/entities/value-objects/comment-with-author"
 
-export class InMemoryAnswerCommentRepository implements AnswerCommentRepository {
+export class InMemoryAnswerCommentRepository
+  implements AnswerCommentRepository
+{
   public items: AnswerComment[] = []
+
+  constructor(private studentsRepository: InMemoryStudentsRepository) {}
 
   async findById(id: string) {
     const answerComment = this.items.find((item) => item.id.toString() === id)
@@ -16,11 +22,41 @@ export class InMemoryAnswerCommentRepository implements AnswerCommentRepository 
   }
 
   async findManyByAnswerId(answerId: string, { page }: PaginationParams) {
-    const questionComment = this.items
+    const answerComments = this.items
       .filter((item) => item.answerId.toString() === answerId)
       .slice((page - 1) * 20, page * 20)
 
-    return questionComment
+    return answerComments
+  }
+
+  async findManyByAnswerIdWithAuthor(
+    answerId: string,
+    { page }: PaginationParams
+  ) {
+    const answerComments = this.items
+      .filter((item) => item.answerId.toString() === answerId)
+      .slice((page - 1) * 20, page * 20)
+      .map((comment) => {
+        const author = this.studentsRepository.items.find((student) => {
+          return student.id.equals(comment.authorId)
+        })
+
+        if (!author) {
+          throw new Error(
+            `Author with ID "${comment.authorId.toString()}" does not exist.`
+          )
+        }
+
+        return CommentWithAuthor.create({
+          content: comment.content,
+          commentId: comment.id,
+          createdAt: comment.createdAt,
+          authorId: comment.authorId,
+          author: author.name,
+        })
+      })
+
+    return answerComments
   }
 
   async create(answerComment: AnswerComment) {
