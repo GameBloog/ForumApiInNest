@@ -17,7 +17,7 @@ export interface QuestionDetailsProps {
 }
 
 export class QuestionDetails extends ValueObject<QuestionDetailsProps> {
-  get commentId() {
+  get questionId() {
     return this.props.questionId
   }
 
